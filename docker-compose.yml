@@ -2,6 +2,7 @@ version: "3"
 services:
   bedrock_server:
     container_name: bedrock-server-stack
+    env_file: .env
     environment:
         - EULA=TRUE
         - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -19,6 +20,7 @@ services:
 
   minecraft-spigot:
     container_name: minecraft-spigot-stack
+    env_file: .env
     environment:
         - TYPE=SPIGOT
         - EULA=TRUE
