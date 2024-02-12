@@ -1,0 +1,42 @@
+version: "3"
+services:
+  bedrock_server:
+    container_name: bedrock-server-stack
+    environment:
+        - EULA=TRUE
+        - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        - SERVER_PORT=19132
+        - VERSION=LATEST
+    image: itzg/minecraft-bedrock-server:latest
+    networks:
+      MyMacvlan:
+        ipv4_address: 10.10.20.180
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - ${BEDROCKDATA}:/data
+
+  minecraft-spigot:
+    container_name: minecraft-spigot-stack
+    environment:
+        - TYPE=SPIGOT
+        - EULA=TRUE
+        - VERSION=LATEST
+        - UID=1000
+        - GID=1000
+        - RCON_PASSWORD=minecraft
+    image: itzg/minecraft-server:latest
+    networks:
+      MyMacvlan:
+        ipv4_address: 10.10.20.181
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+        - ${MINECRAFTDATA}:/data
+
+networks:
+  MyMacvlan:
+    external: true
+    name: MyMacvlan
